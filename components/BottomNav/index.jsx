@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
-export function Footer() {
+export function BottomNav() {
     const [ativo, setAtivo] = useState("home");
 
     const icones = [
