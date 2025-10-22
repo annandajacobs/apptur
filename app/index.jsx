@@ -20,6 +20,8 @@ export default function Index() {
       <View>
         <CategoriaSection categorias={categorias} />
       </View>
+
+      
       <Footer />
         
     </View>
