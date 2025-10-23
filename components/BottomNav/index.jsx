@@ -1,42 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { usePathname, router } from "expo-router";
 
 export function BottomNav() {
-    const [ativo, setAtivo] = useState("home");
+  const pathname = usePathname(); // pega a rota atual
+  const [ativo, setAtivo] = useState("home");
 
-    const icones = [
-        { nome: "home", componente: Ionicons, icone: "home-outline" },
-        { nome: "mapa", componente: Ionicons, icone: "map-outline" },
-        { nome: "favoritos", componente: FontAwesome5, icone: "heart" },
-        { nome: "perfil", componente: Ionicons, icone: "person-outline" },
-    ];
-    return (
-        <View style={styles.container}>
-            {icones.map((item) => {
-                const IconComponent = item.componente;
-                const selecionado = ativo === item.nome;
+  // sincroniza o ícone ativo com a rota atual
+  useEffect(() => {
+    if (pathname === "/") setAtivo("home");
+    else if (pathname === "/mapa") setAtivo("mapa");
+    else if (pathname === "/favoritos") setAtivo("favoritos");
+    else if (pathname === "/perfil") setAtivo("perfil");
+  }, [pathname]);
 
-                return (
-                <Pressable
-                    key={item.nome}
-                    onPress={() => setAtivo(item.nome)}
-                    style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]}
-                >
-                    <IconComponent
-                    name={item.icone}
-                    size={28}
-                    color={selecionado ? "#38B4FF" : "#888"} 
-                    />
-                </Pressable>
-                );
-            })}
-        </View>
-    )
+  const icones = [
+    { nome: "home", componente: Ionicons, icone: "home-outline", rota: "/" },
+    { nome: "mapa", componente: Ionicons, icone: "map-outline", rota: "/mapa" },
+    { nome: "favoritos", componente: FontAwesome5, icone: "heart", rota: "/favoritos" },
+    { nome: "perfil", componente: Ionicons, icone: "person-outline", rota: "/perfil" },
+  ];
+
+  return (
+    <View style={styles.container}>
+      {icones.map((item) => {
+        const IconComponent = item.componente;
+        const selecionado = ativo === item.nome;
+
+        return (
+          <Pressable
+            key={item.nome}
+            onPress={() => router.push(item.rota)} // 🔹 Navega com expo-router
+            style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]}
+          >
+            <IconComponent
+              name={item.icone}
+              size={28}
+              color={selecionado ? "#38B4FF" : "#888"}
+            />
+          </Pressable>
+        );
+      })}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
     position: "absolute",
     bottom: 0,
     width: "100%",
@@ -47,5 +58,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopWidth: 1,
     borderTopColor: "#ddd",
-  }
-})
+  },
+});

@@ -2,7 +2,6 @@ import { Text, View, StyleSheet } from "react-native";
 import { AppturButton } from "../components/AppturButton";
 import { Busca } from "../components/Busca";
 import { CategoriaSection } from "../components/CategoriaSection";
-import { Footer } from "../components/BottomNav";
 
 export default function Index() {
   const categorias = ["Praias", "Passeios Culturais", "Lazer"];
@@ -20,9 +19,6 @@ export default function Index() {
       <View>
         <CategoriaSection categorias={categorias} />
       </View>
-
-      
-      <Footer />
         
     </View>
   );
